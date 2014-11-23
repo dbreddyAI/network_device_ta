@@ -1,0 +1,43 @@
+[nav/default]
+access = read : [ * ], write : [ * ]
+export = none
+owner = nobody
+version = 6.0
+modtime = 1383537130.349854000
+
+[views/sdiff]
+access = read : [ * ], write : [ * ]
+export = none
+owner = nobody
+version = 6.0
+modtime = 1383933106.600547000
+
+[html/sdiff]
+access = read : [ * ], write : [ * ]
+export = system
+owner = admin
+version = 6.0
+modtime = 1383534511.667119000
+
+[views/sdiff-broken]
+access = read : [ * ], write : [ * ]
+export = none
+owner = nobody
+version = 6.0
+modtime = 1383933097.826621000
+
+[app/ui]
+version = 6.0
+modtime = 1383933152.653956000
+
+[app/launcher]
+version = 6.0
+modtime = 1383933152.658176000
+
+[app/package/check_for_updates]
+version = 6.0
+modtime = 1383933152.660123000
+
+[app/install/install_source_checksum]
+version = 6.2.0
+modtime = 1416773594.988363000

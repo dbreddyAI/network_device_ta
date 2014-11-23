@@ -1,0 +1,236 @@
+<endpoint name="data/inputs/network_device">
+  <header>Network Device</header>
+  <breadcrumb>
+    <parent hidecurrent="False">datainputstats</parent>
+    <name>Network Devices</name>
+  </breadcrumb>
+  <elements>
+    <element name="sourceFields" type="fieldset">
+      <view name="list"/>
+      <view name="edit"/>
+      <view name="create"/>
+      <elements>
+
+        <element name="name" label="Network Device Input Name">
+          <view name="list"/>
+          <view name="create"/>
+          <key name="exampleText">Name of this network device input.</key>
+        </element>
+
+        <element name="attributes" type="fieldset">
+	  <key name="legend">Network Device Access Settings</key>
+	  <view name="edit"/>
+	  <view name="create"/>
+          <view name="list"/>
+          <elements>
+            <element name="hostname" type="textfield" label="Host Name">
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">IP or hostname of the device you would like to connect to.</key>
+            </element>
+            <element name="telnet" type="checkbox" label="Use telnet">
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Override SSH (default) with telnet.</key>
+            </element>
+            <element name="device_type" type="select" label="Device Type">
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Select your device type to determine which device "driver" to use.</key>
+              <options>
+                <opt value="OSX" label="Server - OS X"/> 
+                <opt value="PPC" label="Server - Power PC"/> 
+                <opt value="OIS" label="Network - OIS"/>                    
+                <opt value="Cat" label="Network - Catalyst"/>                    
+                <opt value="PIX" label="Network - PIX"/>                    
+                <opt value="ASA" label="Network - ASA"/>                    
+                <opt value="CIF" label="Mainframe - IBM"/> 
+                <opt value="AS4" label="Mainframe - AS400"/> 
+              </options>
+            </element>
+          </elements>
+        </element>
+
+        <element name="attributes" type="fieldset">
+	  <key name="legend">Network Device Credentials</key>
+	  <view name="edit"/>
+	  <view name="create"/>
+          <view name="list"/>
+          <elements>
+            <element name="username" type="textfield" label="Username">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Username to connect to the host with.</key>
+            </element>
+            <element name="password" type="password" label="Password">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Password for the defined username</key>
+            </element>
+            <element name="ena_pass" type="password" label="Enable Password">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Enable ppassword, if required.</key>
+            </element>
+          </elements>
+        </element>
+
+        <element name="attributes" type="fieldset">
+	  <key name="legend">List of commands to run on device</key>
+	  <view name="edit"/>
+	  <view name="create"/>
+          <view name="list"/>
+          <elements>
+            <element name="commands" type="expando_textarea" label="Commands">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">For example:&lt;br/&gt;show running-config&lt;br/&gt;show startup-config</key>
+            </element>
+          </elements>
+        </element>
+
+        <element name="attributes" type="fieldset">
+	  <key name="legend">Scheduling</key>
+          <view name="edit"/>
+          <view name="create"/>
+          <view name="list"/>
+          <elements>
+            <element name="interval" type="textfield" label="Interval">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">The interval can either be a valid cron expression or a relative time expression to wait between each run:&lt;br/&gt;&lt;br/&gt; - Relative time expression: The number of seconds or a relative time expression.&lt;br/&gt; Examples:&lt;br/&gt; interval = 60 (run every 60 seconds)&lt;br/&gt; interval = 1h (run every hour)&lt;br/&gt;&lt;br/&gt; - Cron expression&lt;br/&gt; Examples:&lt;br/&gt; interval = 0/15 * * * *       (run every 15 minutes)&lt;br/&gt; interval = 0 18 * * MON-FRI * (run every weekday at 6pm)
+              </key>
+            </element>
+          </elements>
+        </element>
+
+
+        <element name="sourcetypeFields" type="fieldset">
+          <view name="list"/>
+          <view name="edit"/>
+          <view name="create"/>
+          <elements>
+            <element name="spl-ctrl_sourcetypeSelect" type="select" label="Set sourcetype">
+              <onChange>
+                <!-- <key name="auto">NONE</key> -->
+                <key name="_action">showonly</key>
+                <group_set>
+                  <group name="sourcetype"/>
+                  <group name="spl-ctrl_from_list"/>
+                </group_set>
+                <key name="sourcetype">sourcetype</key>
+                <key name="spl-ctrl_from_list">spl-ctrl_from_list</key>
+              </onChange>
+              <options>
+                <!-- <opt value="auto" label="Automatic"/> -->
+                <opt value="spl-ctrl_from_list" label="From list"/>
+                <opt value="sourcetype" label="Manual"/>
+              </options>
+              <view name="edit"/>
+              <view name="create"/>
+              <!-- <key name="exampleText">Set to automatic and Splunk will classify and assign sourcetype automatically. Unknown sourcetypes will be given a placeholder name.</key> -->
+              <key name="processValueEdit">[[ e for e in ['sourcetype'] if form_defaults.get(e) ][0]]</key>
+              <key name="processValueAdd">[[ e for e in ['sourcetype'] if form_defaults.get(e) ][0]]</key>
+            </element>
+            <element name="sourcetype" type="textfield" label="Source type">
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">If this field is left blank, the default value of network_device_ta will be used for the source type.</key>
+              <key name="processValueList">_('network_device_ta') if (value==None or value=='') else value</key> 
+              <key name="submitValueAdd">form_data.get('spl-ctrl_from_list') if form_data.get('spl-ctrl_sourcetypeSelect')=='spl-ctrl_from_list' else value if ( form_data.get('spl-ctrl_sourcetypeSelect')=='sourcetype' and value!=None and value!='' ) else _('network_device_ta')</key>
+              <key name="submitValueEdit">form_data.get('spl-ctrl_from_list') if form_data.get('spl-ctrl_sourcetypeSelect')=='spl-ctrl_from_list' else value if ( form_data.get('spl-ctrl_sourcetypeSelect')=='sourcetype' and value!=None and value!='' ) else _('network_device_ta')</key>
+              <key name="labelList">Source type</key>
+            </element>
+            <element name="spl-ctrl_from_list" type="select" label="Select source type from list">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Splunk classifies all common data types automatically, but if you're looking for something specific, you can find more source types in the <![CDATA[<a href="../../../apps/remote">Splunkbase apps browser</a>]]> or online at <![CDATA[<a href="http://www.splunkbase.com/" target="_blank">www.splunkbase.com</a>]]>.</key>
+              <key name="requiredIfVisible" />
+              <key name="dynamicOptions" type="dict">
+                <key name="keyName">title</key>
+                <key name="keyValue">title</key>
+                <key name="splunkSource">/saved/sourcetypes</key>
+                <key name="splunkSourceParams" type="dict">
+                  <key name="count">-1</key>
+                  <key name="search">'pulldown_type=true'</key>
+                </key>
+                <key name="prefixOptions" type="list">
+                  <item type="list">
+                    <item></item>
+                    <item>Choose...</item>
+                  </item>
+                </key>
+              </key>
+            </element>
+          </elements>
+          <key name="legend">Source type</key>
+          <key name="helpText">Set sourcetype field for all events from this source.</key>
+        </element>
+
+
+        <element name="spl-ctrl_EnableAdvanced" type="checkbox" label="More settings" class="spl-mgr-advanced-switch">
+          <view name="edit"/>
+          <view name="create"/>
+          <onChange>
+            <key name="_action">showonly</key>
+            <key name="0">NONE</key>
+            <key name="1">ALL</key>
+            <group_set>
+              <group name="advanced"/>
+            </group_set>
+          </onChange>
+        </element>
+        <element name="advanced" type="fieldset" class="spl-mgr-advanced-options">
+          <view name="edit"/>
+          <view name="create"/>
+          <elements>
+            <element name="hostFields" type="fieldset">
+              <key name="legend">Host</key>
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <elements>
+                <element name="host" type="textfield" label="Host field value">
+                  <view name="edit"/>
+                  <view name="create"/>
+                </element>
+              </elements>
+            </element>  
+            <element name="indexField" type="fieldset">
+              <key name="legend">Index</key>
+              <key name="helpText">Set the destination index for this source.</key>
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <elements>
+                <element name="index" type="select" label="Index">
+                  <view name="list"/>
+                  <view name="edit"/>
+                  <view name="create"/>
+                  <key name="dynamicOptions" type="dict">
+                    <key name="keyName">title</key>
+                    <key name="keyValue">title</key>
+                    <key name="splunkSource">/data/indexes</key>
+                    <key name="splunkSourceParams" type="dict">
+                      <key name="search">'isInternal=false disabled=false'</key>
+                      <key name="count">-1</key>
+                    </key>
+                  </key>
+                </element>
+              </elements>
+            </element>
+          </elements>
+        </element>
+        <element name="eai:acl.app" label="App">
+          <view name="list"/>
+          <key name="processValueList">entity['eai:acl']['app'] or ""</key>
+        </element>
+
+      </elements>
+    </element>
+  </elements>
+</endpoint>

@@ -1,0 +1,291 @@
+<view autoCancelInterval="90" isVisible="true" objectMode="SimpleForm" onunloadCancelJobs="true" template="dashboard.html">
+  <label>sdiff - adv, kinda</label>
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="clearOnJobDispatch">False</param>
+    <param name="filter">*</param>
+    <param name="maxSize">1</param>
+  </module>
+  <module name="Message" layoutPanel="messaging">
+    <param name="clearOnJobDispatch">True</param>
+    <param name="filter">splunk.search.job</param>
+    <param name="maxSize">1</param>
+  </module>
+  <module name="DashboardTitleBar" layoutPanel="viewHeader"/>
+  <module name="HiddenSearch" layoutPanel="viewHeader" autoRun="True">
+    <param name="search">
+      $search$ | sdiff pos1=$pos1$ pos2=$pos2$ n=$num$ c=$context$ | table _raw
+  </param>
+    <module name="ExtendedFieldSearch">
+      <param name="field">search</param>
+      <param name="intention">
+        <param name="name">stringreplace</param>
+        <param name="arg">
+          <param name="search">
+            <param name="default">index=network command=ps  host=jdonn*</param>
+            <param name="fillOnEmpty">True</param>
+          </param>
+        </param>
+      </param>
+      <param name="default">index=network command=ps  host=jdonn*</param>
+      <param name="label">Search</param>
+      <param name="replacementMap">
+        <param name="arg">
+          <param name="search">
+            <param name="value"></param>
+          </param>
+        </param>
+      </param>
+      <module name="StaticSelect">
+        <param name="staticFieldsToDisplay">
+          <list>
+            <param name="label">1</param>
+            <param name="value">1</param>
+          </list>
+          <list>
+            <param name="label">2</param>
+            <param name="value">2</param>
+          </list>
+          <list>
+            <param name="label">3</param>
+            <param name="value">3</param>
+          </list>
+          <list>
+            <param name="label">4</param>
+            <param name="value">4</param>
+          </list>
+          <list>
+            <param name="label">5</param>
+            <param name="value">5</param>
+          </list>
+          <list>
+            <param name="label">6</param>
+            <param name="value">6</param>
+          </list>
+          <list>
+            <param name="label">7</param>
+            <param name="value">7</param>
+          </list>
+          <list>
+            <param name="label">8</param>
+            <param name="value">8</param>
+          </list>
+          <list>
+            <param name="label">9</param>
+            <param name="value">9</param>
+          </list>
+          <list>
+            <param name="label">10</param>
+            <param name="value">10</param>
+          </list>
+        </param>
+        <param name="settingToCreate">pos1_setting</param>
+        <param name="selected">1</param>
+        <param name="searchWhenChanged">True</param>
+        <param name="label">Position 1</param>
+        <module name="ConvertToIntention">
+          <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+              <param name="pos1">
+                <param name="default">1</param>
+                <param name="fillOnEmpty">True</param>
+                <param name="value">$target$</param>
+              </param>
+            </param>
+          </param>
+          <param name="settingToConvert">pos1_setting</param>
+          <module name="StaticSelect">
+            <param name="staticFieldsToDisplay">
+              <list>
+                <param name="label">1</param>
+                <param name="value">1</param>
+              </list>
+              <list>
+                <param name="label">2</param>
+                <param name="value">2</param>
+              </list>
+              <list>
+                <param name="label">3</param>
+                <param name="value">3</param>
+              </list>
+              <list>
+                <param name="label">4</param>
+                <param name="value">4</param>
+              </list>
+              <list>
+                <param name="label">5</param>
+                <param name="value">5</param>
+              </list>
+              <list>
+                <param name="label">6</param>
+                <param name="value">6</param>
+              </list>
+              <list>
+                <param name="label">7</param>
+                <param name="value">7</param>
+              </list>
+              <list>
+                <param name="label">8</param>
+                <param name="value">8</param>
+              </list>
+              <list>
+                <param name="label">9</param>
+                <param name="value">9</param>
+              </list>
+              <list>
+                <param name="label">10</param>
+                <param name="value">10</param>
+              </list>
+            </param>
+            <param name="settingToCreate">pos2_setting</param>
+            <param name="selected">2</param>
+            <param name="searchWhenChanged">True</param>
+            <param name="label">Position 2</param>
+            <module name="ConvertToIntention">
+              <param name="intention">
+                <param name="name">stringreplace</param>
+                <param name="arg">
+                  <param name="pos2">
+                    <param name="default">2</param>
+                    <param name="fillOnEmpty">True</param>
+                    <param name="value">$target$</param>
+                  </param>
+                </param>
+              </param>
+              <param name="settingToConvert">pos2_setting</param>
+              <module name="StaticSelect">
+                <param name="staticFieldsToDisplay">
+                  <list>
+                    <param name="label">1</param>
+                    <param name="value">1</param>
+                  </list>
+                  <list>
+                    <param name="label">2</param>
+                    <param name="value">2</param>
+                  </list>
+                  <list>
+                    <param name="label">3</param>
+                    <param name="value">3</param>
+                  </list>
+                  <list>
+                    <param name="label">4</param>
+                    <param name="value">4</param>
+                  </list>
+                  <list>
+                    <param name="label">5</param>
+                    <param name="value">5</param>
+                  </list>
+                  <list>
+                    <param name="label">6</param>
+                    <param name="value">6</param>
+                  </list>
+                  <list>
+                    <param name="label">7</param>
+                    <param name="value">7</param>
+                  </list>
+                  <list>
+                    <param name="label">8</param>
+                    <param name="value">8</param>
+                  </list>
+                  <list>
+                    <param name="label">9</param>
+                    <param name="value">9</param>
+                  </list>
+                  <list>
+                    <param name="label">10</param>
+                    <param name="value">10</param>
+                  </list>
+                </param>
+                <param name="settingToCreate">num_setting</param>
+                <param name="selected">3</param>
+                <param name="searchWhenChanged">True</param>
+                <param name="label"># Context Lines</param>
+                <module name="ConvertToIntention">
+                  <param name="intention">
+                    <param name="name">stringreplace</param>
+                    <param name="arg">
+                      <param name="num">
+                        <param name="default">3</param>
+                        <param name="fillOnEmpty">True</param>
+                        <param name="value">$target$</param>
+                      </param>
+                    </param>
+                  </param>
+                  <param name="settingToConvert">num_setting</param>
+                  <module name="StaticRadio">
+                    <param name="searchWhenChanged">True</param>
+                    <param name="name">context_name</param>
+                    <param name="label">Change Context</param>
+                    <param name="staticFieldsToDisplay">
+                      <list>
+                        <param name="label">False</param>
+                        <param name="value">False</param>
+                      </list>
+                      <list>
+                        <param name="label">True</param>
+                        <param name="value">True</param>
+                      </list>
+                    </param>
+                    <param name="settingToCreate">context_setting</param>
+                    <param name="checked">False</param>
+                    <module name="ConvertToIntention">
+                      <param name="intention">
+                        <param name="name">stringreplace</param>
+                        <param name="arg">
+                          <param name="context">
+                            <param name="default">False</param>
+                            <param name="fillOnEmpty">True</param>
+                            <param name="value">$target$</param>
+                          </param>
+                        </param>
+                      </param>
+                      <param name="settingToConvert">context_setting</param>
+                      <module name="TimeRangePicker">
+                        <param name="searchWhenChanged">True</param>
+                        <module name="SubmitButton" layoutPanel="viewHeader">
+                          <param name="updatePermalink">True</param>
+                          <param name="visible">True</param>
+                          <param name="allowSoftSubmit">True</param>
+                          <param name="label">Search</param>
+                          <module name="IFrameInclude" layoutPanel="panel_row1_col1">
+                            <param name="src">html/sdiff.html</param>
+                          </module>
+                          <module name="Paginator" layoutPanel="panel_row2_col1">
+                            <param name="count">20</param>
+                            <param name="entityName">results</param>
+                            <module name="EnablePreview">
+                              <param name="enable">True</param>
+                              <param name="display">False</param>
+                              <module name="SimpleResultsTable">
+                                <param name="count">20</param>
+                                <param name="entityName">results</param>
+                                <param name="allowTransformedFieldSelect">True</param>
+                                <param name="drilldown">row</param>
+                                <module name="Gimp"/>
+                                <module name="ConvertToDrilldownSearch">
+                                  <module name="ViewRedirector">
+                                    <param name="viewTarget">flashtimeline</param>
+                                  </module>
+                                </module>
+                              </module>
+                              <module name="ViewRedirectorLink">
+                                <param name="viewTarget">flashtimeline</param>
+                              </module>
+                            </module>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                  </module>
+                </module>
+              </module>
+            </module>
+          </module>
+        </module>
+      </module>
+    </module>
+  </module>
+</view>
+

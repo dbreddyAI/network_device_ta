@@ -1,0 +1,93 @@
+<form>
+  <label>sdiff - broekn</label>
+  <description/>
+
+  <searchTemplate>
+      $search$ | sdiff pos1=$pos1$ pos2=$pos2$ n=$num$ c=$context$ | table _raw
+  </searchTemplate>
+  
+  <!-- use the autoRun attribute so the form runs when loaded -->
+  <fieldset autoRun="True">
+    
+    <input type="text" token="search">
+      <label>search</label>
+      <default>index=network command=ps  host=jdonn*</default>
+    </input>
+
+    <input type="dropdown" token="pos1" searchWhenChanged="True">
+      <label>position 1</label>
+      <default value="1">1</default>
+      <choice value="1">1</choice>
+      <choice value="2">2</choice>
+      <choice value="3">3</choice>
+      <choice value="4">4</choice>
+      <choice value="5">5</choice>
+      <choice value="6">6</choice>
+      <choice value="7">7</choice>
+      <choice value="8">8</choice>
+      <choice value="9">9</choice>
+      <choice value="10">10</choice>
+    </input>
+
+    <input type="dropdown" token="pos2" searchWhenChanged="True">
+      <label>position 2</label>
+      <default value="2">2</default>
+      <choice value="1">1</choice>
+      <choice value="2">2</choice>
+      <choice value="3">3</choice>
+      <choice value="4">4</choice>
+      <choice value="5">5</choice>
+      <choice value="6">6</choice>
+      <choice value="7">7</choice>
+      <choice value="8">8</choice>
+      <choice value="9">9</choice>
+      <choice value="10">10</choice>
+    </input>
+
+    <input type="dropdown" token="num" searchWhenChanged="True">
+      <label>number of context lines</label>
+      <default value="2">3</default>
+      <choice value="1">1</choice>
+      <choice value="2">2</choice>
+      <choice value="3">3</choice>
+      <choice value="4">4</choice>
+      <choice value="5">5</choice>
+      <choice value="6">6</choice>
+      <choice value="7">7</choice>
+      <choice value="8">8</choice>
+      <choice value="9">9</choice>
+      <choice value="10">10</choice>
+    </input>
+
+    <input type="radio" token="context" searchWhenChanged="True">
+        <label>Change Context</label>
+        <default>False</default>
+        <choice value="False">False</choice>
+        <choice value="True">True</choice>
+    </input>
+
+    <!-- Add time range picker -->
+    <input type="time" searchWhenChanged="true">
+      <default>
+        <earliestTime>-24h@h</earliestTime>
+        <latestTime>now</latestTime>
+      </default>
+    </input>
+    
+  </fieldset>
+
+  <row>
+
+      <html src="html/sdiff.html">  </html>
+
+  </row>
+
+  <row>
+    <!-- Show results as a table -->
+    <table>
+      <option name="showPager">true</option>
+      <option name="count">20</option>
+    </table>
+  </row>
+</form>
+
